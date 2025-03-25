@@ -45,11 +45,51 @@
 */
 
 window.addEventListener("load", function() {
-   
+   // organizes query string from url
+   var orderData = this.location.search.slice(1);
+   orderData = orderData.replace(/\+/g, " ");
+   orderData = decodeURIComponent(orderData);
+   var orderFields = orderData.split(/[&=]/g);
+
+   // write orderFields into order form
+   this.document.forms.order.elements.modelName.value = orderFields[3];
+   this.document.forms.order.elements.modelQty.value = orderFields[5];
+   this.document.forms.order.elements.orderCost.value = orderFields[7];
+   this.document.forms.order.elements.shippingType.value = orderFields[9];
+   this.document.forms.order.elements.shippingCost.value = orderFields[13];
+   this.document.forms.order.elements.subTotal.value = orderFields[15];
+   this.document.forms.order.elements.salesTax.value = orderFields[17];
+   this.document.forms.order.elements.cartTotal.value = orderFields[19];
 });
 
+window.addEventListener("load", function() {
+   this.document.getElementById("subButton").onclick = runSubmit;
+   this.document.getElementById("cardHolder").oninput = validateName;
+   this.document.getElementById("cardNumber").oninput = validateNumber;
+   this.document.getElementById("expDate").oninput = validateDate;
+   this.document.getElementById("cvc").oninput = validateCVC;
+});
 
+function runSubmit() {
+   validateName();
+   validateCredit();
+   validateNumber();
+   validateDate();
+   validateCVC();
+}
 
+function validateDate() {
+   var cardDate = document.getElementById("expDate");
+   
+   if (cardDate.validity.valueMissing) {
+      cardDate.setCustomValidity("Enter the expiration date");
+   } else if (/^(0[1-9]|1[0-2])\/20[12]\d$/.test(cardDate.value) === false) {
+      cardDate.setCustomValidity("Enter a valid expiration date");
+   } else {
+      cardDate.setCustomValidity("");
+   }
+
+}
 
 
 

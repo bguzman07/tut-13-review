@@ -43,8 +43,6 @@ window.addEventListener("load", function() {
 
 
 function calcCart() {
-   console.log("running :)");
-
    var orderForm = document.forms.cart;
 
    var cost = orderForm.elements.modelCost.value;
